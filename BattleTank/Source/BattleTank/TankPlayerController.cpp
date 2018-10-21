@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "Engine/World.h"
 
 void ATankPlayerController::Tick(float DeltaTime)
 {
@@ -38,7 +39,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation; // OUT parameter
 	if (GetSightRayHitLocation(HitLocation)) // Has "Side-effect", is going to line trace
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *HitLocation.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *HitLocation.ToString());
 		// TODO Tell controlled tank to aim at this point
 	}
 }
@@ -58,10 +59,31 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
 		// Line-trace along the look direction, and see what we hit up to a max range
-		// GetLookVectorHitLocation();
+		GetLookVectorHitLocation(LookDirection, HitLocation);
 	}
 	
 	return true;
+}
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const
+{
+	FHitResult HitResult;
+	auto StartLocation = PlayerCameraManager->GetCameraLocation();
+	auto EndLocation = StartLocation + (LookDirection * LineTraceRange);
+	
+	if (GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		StartLocation,
+		EndLocation,
+		ECollisionChannel::ECC_Visibility)
+		)
+	{
+		HitLocation = HitResult.Location;
+		//UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *HitResult.Location.ToString());
+		return true;
+	}
+	HitLocation = FVector(0);
+	return false; //line trace failed
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
@@ -73,21 +95,4 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 		CameraWorldLocation, 
 		LookDirection  // OUT Parameter
 	);
-}
-
-bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection) const
-{
-	//FHitResult OutHit;
-	//FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
-	//FCollisionResponseParams ResponseParam;
-	/*GetWorld()->LineTraceSingleByChannel
-	(
-		 OutHit,
-		LookDirection,
-		LookDirection + ,
-		ECollisionChannel::ECC_Visibility,
-		TraceParameters,
-		ResponseParam
-	);*/
-	return false;
 }
