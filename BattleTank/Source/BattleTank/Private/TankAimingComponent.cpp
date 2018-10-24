@@ -3,6 +3,7 @@
 
 #include "TankAimingComponent.h"
 #include "GameFramework/Actor.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values for this component's properties
@@ -41,6 +42,34 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
+	if (!Barrel) { return; }
 
-	UE_LOG(LogTemp, Warning, TEXT("Firing at %f"), LaunchSpeed);
+	FVector OutLaunchVelocity(0);
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+	//FCollisionResponseParams ResponseParam;
+	//TArray < AActor * > ActorsToIgnore;
+
+	// Calculate the Out Launch Velocity
+	if (UGameplayStatics::SuggestProjectileVelocity
+		(
+			this,
+			OutLaunchVelocity,
+			StartLocation,
+			HitLocation,
+			LaunchSpeed,
+			false, // Take the low arc
+			0.0,
+			0.0,
+			ESuggestProjVelocityTraceOption::DoNotTrace
+			//ResponseParam,
+			//ActorsToIgnore,
+			//true
+			)
+		)
+	{
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		auto TankName = GetOwner()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName, *AimDirection.ToString());
+	}
+	// If no solution found do nothing
 }
