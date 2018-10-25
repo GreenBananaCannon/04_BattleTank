@@ -2,6 +2,8 @@
 
 
 #include "public/Tank.h"
+#include "TankBarrel.h"
+#include "Projectile.h"
 #include "Engine/World.h"
 #include "TankAimingComponent.h"
 
@@ -36,11 +38,21 @@ void ATank::Fire()
 {
 	auto Time = GetWorld()->GetTimeSeconds();
 	UE_LOG(LogTemp, Warning, TEXT("%f: Fire input event detected"), Time);
+
+	if (!Barrel) { return; }
+
+	//spawn a projectile at the barrel's socket location
+	GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBlueprint, 
+		Barrel->GetSocketLocation(FName("Projectile")), 
+		Barrel->GetSocketRotation(FName("Projectile"))
+		);
 }
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 
 void ATank::SetTurretReference(UTankTurret* TurretToSet)
