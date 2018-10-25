@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "public/Tank.h"
 #include "TankAIController.generated.h"
+
+class ATank;
 
 /**
  * 
@@ -23,8 +24,6 @@ class BATTLETANK_API ATankAIController : public AAIController
 
 	ATank* GetAITank() const;
 
-	ATank* GetPlayerTank() const;
-
-	
+	ATank* GetPlayerTank() const;	
 	
 };
