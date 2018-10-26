@@ -4,43 +4,25 @@
 #include "Tank.h"
 #include "Engine/World.h"
 
-void ATankAIController::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	auto AIPawn = GetAITank();
-	if (AIPawn) 
-	{ 
-		AIPawn->AimAt(GetPlayerTank()->GetActorLocation());
-
-		// fire if ready
-	}
-}
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("TankAIController Begin Play"));
-
-	auto PlayerControlledTank = GetPlayerTank();
-	if (!PlayerControlledTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("TankAIController didn't find the player Tank"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("TankAIController found Player Tank: %s"), *(PlayerControlledTank->GetName()));
-	}
-
 }
 
-ATank* ATankAIController::GetAITank() const
+void ATankAIController::Tick(float DeltaTime)
 {
-	return Cast<ATank>(GetPawn());
-}
+	Super::Tick(DeltaTime);
+	auto AITank = Cast<ATank>(GetPawn());
+	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	if (PlayerTank)
+	{ 
+		//TODO Move towards the player
 
-ATank* ATankAIController::GetPlayerTank() const
-{
-	auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (!PlayerPawn) { return nullptr; }
-	return Cast<ATank>(PlayerPawn);
+		//Aim towards the player
+		//Aim towards the player
+		AITank->AimAt(PlayerTank->GetActorLocation());
+
+		AITank->Fire(); // TODO Limit firing rate
+	}
 }
