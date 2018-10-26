@@ -7,7 +7,7 @@
 #include "TankTurret.generated.h"
 
 /**
- * 
+ * TankTurret is used to rotate the turret and keep track of turn speed.
  */
 UCLASS(meta = (BlueprintSpawnableComponent), hidecategories = ("Collision"))
 class BATTLETANK_API UTankTurret : public UStaticMeshComponent
