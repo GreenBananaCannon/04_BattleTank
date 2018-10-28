@@ -20,5 +20,10 @@ class BATTLETANK_API ATankAIController : public AAIController
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void BeginPlay() override;	
+
+private:
+	// How close the AI tank can get to the player
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	float AcceptanceRadius = 3000;
 	
 };
