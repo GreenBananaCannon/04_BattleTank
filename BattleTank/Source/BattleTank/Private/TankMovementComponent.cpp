@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright GreenBananaCannon
 
 #include "TankMovementComponent.h"
 #include "TankTrack.h"
@@ -14,8 +14,6 @@ void UTankMovementComponent::Initialize(UTankTrack* LeftTrackToSet, UTankTrack* 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
 	// No need to call super as we are replacing the functionality
-	//auto Time = GetWorld()->GetTimeSeconds();
-	//auto TankName = GetOwner()->GetName();
 
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
@@ -23,9 +21,9 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	auto AITankThrowForward = FVector::DotProduct(AIForwardIntention, TankForward);
 	IntendMoveForward(AITankThrowForward);
 
-	auto AITankThrowTurn = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
-	IntendTurnRight(AITankThrowTurn);
-	//UE_LOG(LogTemp, Warning, TEXT("%s: vectoring to: %s"), *TankName, *AIForwardIntention.ToString());
+	auto AITankThrowRight = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
+	IntendTurnRight(AITankThrowRight);
+	UE_LOG(LogTemp, Warning, TEXT("Right throw: %f, Forward Throw: %f"), AITankThrowRight, AITankThrowForward);
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
@@ -45,7 +43,6 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 void UTankMovementComponent::IntendTurnLeft(float Throw)
 {
 	if (!LeftTrack || !RightTrack) { return; }
-	// clamp values to prevent double inputs
 	LeftTrack->SetThrottle(-Throw);
 	RightTrack->SetThrottle(Throw);
 }
