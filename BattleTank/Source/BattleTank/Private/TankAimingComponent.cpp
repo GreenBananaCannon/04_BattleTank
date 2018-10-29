@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright GreenBananaCannon
 
 
 #include "TankAimingComponent.h"
@@ -19,7 +19,6 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::Initialize(UTankBarrel * BarrelToSet, UTankTurret *TurretToSet)
 {
-	if (!Barrel || !Turret) { return; }
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
 }
@@ -57,6 +56,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
+	if (!Barrel) { return; }
 	// Find difference between current barrel rotation and AimDireciton
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
@@ -67,6 +67,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
 {
+	if (!Turret) { return; }
 	auto TurretRotator = Turret->GetComponentRotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto TurretDeltaRotator = AimAsRotator - TurretRotator;

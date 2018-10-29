@@ -23,7 +23,7 @@ class BATTLETANK_API ATankAIController : public AAIController
 
 private:
 	// How close the AI tank can get to the player
-	UPROPERTY(EditDefaultsOnly, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float AcceptanceRadius = 3000;
 	
 };
