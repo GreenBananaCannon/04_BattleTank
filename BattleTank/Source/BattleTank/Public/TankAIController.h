@@ -5,11 +5,12 @@
 #include "CoreMinimal.h"
 #include "AIController.h"
 #include "TankAIController.generated.h"
+// Depends on movement component via pathfinding system
 
 class ATank;
 
 /**
- * 
+ * Tank AI controller for the enemy tanks.
  */
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
