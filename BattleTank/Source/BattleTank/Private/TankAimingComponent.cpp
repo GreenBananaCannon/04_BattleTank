@@ -25,7 +25,7 @@ void UTankAimingComponent::Initialize(UTankBarrel * BarrelToSet, UTankTurret *Tu
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) { return; }
+	if (!ensure(Barrel)) { return; }
 
 	FVector OutLaunchVelocity(0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -56,7 +56,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if (!Barrel) { return; }
+	if (!ensure(Barrel)) { return; }
 	// Find difference between current barrel rotation and AimDireciton
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
@@ -67,7 +67,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 
 void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
 {
-	if (!Turret) { return; }
+	if (!ensure(Turret)) { return; }
 	auto TurretRotator = Turret->GetComponentRotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto TurretDeltaRotator = AimAsRotator - TurretRotator;
