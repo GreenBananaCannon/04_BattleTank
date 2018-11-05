@@ -22,11 +22,11 @@ public:
 
 
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
-
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef); // only used in BP
+
+	UPROPERTY(BlueprintReadOnly)
+	UTankAimingComponent* AimingComponent = nullptr;
 
 private:
 	// Called every frame

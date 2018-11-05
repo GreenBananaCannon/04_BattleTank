@@ -7,7 +7,7 @@
 #include "TankAIController.generated.h"
 // Depends on movement component via pathfinding system
 
-class ATank;
+class UTankAimingComponent;
 
 /**
  * Tank AI controller for the enemy tanks.
@@ -21,6 +21,9 @@ class BATTLETANK_API ATankAIController : public AAIController
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void BeginPlay() override;	
+
+protected:
+	UTankAimingComponent* AimingComponent = nullptr;
 
 private:
 	// How close the AI tank can get to the player
