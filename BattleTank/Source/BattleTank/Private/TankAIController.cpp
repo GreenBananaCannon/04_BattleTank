@@ -7,8 +7,8 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("IM here"))
-	auto AimingComponent = FindComponentByClass<UTankAimingComponent>();
+
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 }
 
@@ -22,13 +22,10 @@ void ATankAIController::Tick(float DeltaTime)
 	
 	// Move towards the player
 	MoveToActor(PlayerTank, AcceptanceRadius, true, true, false); //TODO check radius is in cm
-	
-		
+
 	// Aim towards the player
-	auto AimingComponent = FindComponentByClass<UTankAimingComponent>();
+	auto AimingComponent = AITank->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
-
-	//TODO fix firing
-	//AITank->Fire();
+	AimingComponent->Fire();
 }
