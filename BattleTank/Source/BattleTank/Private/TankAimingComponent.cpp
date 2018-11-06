@@ -120,6 +120,13 @@ void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
 	auto TurretRotator = Turret->GetComponentRotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto TurretDeltaRotator = AimAsRotator - TurretRotator;
-
-	Turret->RotateTurret(TurretDeltaRotator.Yaw);
+	//Always Yaw the shortest way
+	if (FMath::Abs(TurretDeltaRotator.Yaw) < 180) // use abs value to prevent -180 rear view incorrect rotation
+	{
+		Turret->RotateTurret(TurretDeltaRotator.Yaw);
+	}
+	else
+	{
+		Turret->RotateTurret(-TurretDeltaRotator.Yaw);
+	}
 }
