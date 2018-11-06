@@ -1,5 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright GreenBananaCannon
 #pragma once
 
 #include "CoreMinimal.h"
@@ -25,9 +24,11 @@ class BATTLETANK_API ATankAIController : public AAIController
 protected:
 	UTankAimingComponent* AimingComponent = nullptr;
 
-private:
 	// How close the AI tank can get to the player
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float AcceptanceRadius = 3000;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup") // Consider EditDefaultsOnly
+	float AcceptanceRadius = 8000;
+
+private:
+
 	
 };

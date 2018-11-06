@@ -1,5 +1,4 @@
-// Fill out your copyright notice in the Description page of Project SControlledTankettings.
-
+// Copyright GreenBananaCannon
 #include "TankAIController.h"
 #include "TankAimingComponent.h"
 #include "Engine/World.h"
@@ -26,6 +25,10 @@ void ATankAIController::Tick(float DeltaTime)
 	// Aim towards the player
 	auto AimingComponent = AITank->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
+
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
-	AimingComponent->Fire();
+
+	// if aim or locked
+	if (AimingComponent->GetFiringState() == EFiringState::Locked)
+		AimingComponent->Fire();
 }
