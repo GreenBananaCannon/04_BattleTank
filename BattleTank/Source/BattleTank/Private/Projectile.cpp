@@ -44,7 +44,6 @@ void AProjectile::BeginPlay()
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherACtor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp,Warning,TEXT("Projectile Hits"))
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
 
@@ -62,7 +61,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherACtor, U
 	UE_LOG(LogTemp, Warning, TEXT("%i damage was applied"), DamageApplied)
 
 	CollisionMesh->DestroyComponent(); // Must be after ApplyRadialDamage, otherwise TakeDamage not propagated to the target Actor
-
+	SetRootComponent(CollisionMesh);
 	FTimerHandle TimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectile::OnTimerExpire, DestroyDelay,false);
 }

@@ -3,6 +3,7 @@
 #include "Tank.h"
 #include "Engine/World.h"
 
+
 // Sets default values
 ATank::ATank()
 {
@@ -24,4 +25,9 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, ACo
 	}
 
 	return DamageToApply;
+}
+
+float ATank::GetHealthPercentage() const
+{
+	return (float)CurrentHealth / (float)StartingHealth; // since these values are int32s
 }
