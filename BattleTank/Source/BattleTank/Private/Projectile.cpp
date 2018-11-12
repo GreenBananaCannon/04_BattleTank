@@ -58,8 +58,6 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherACtor, U
 		TArray<AActor*>() // damage all actors, do not ignore any
 		);
 
-	UE_LOG(LogTemp, Warning, TEXT("%i damage was applied"), DamageApplied)
-
 	CollisionMesh->DestroyComponent(); // Must be after ApplyRadialDamage, otherwise TakeDamage not propagated to the target Actor
 	SetRootComponent(CollisionMesh);
 	FTimerHandle TimerHandle;

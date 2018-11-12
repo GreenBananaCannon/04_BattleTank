@@ -17,11 +17,13 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, ACo
 	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
 	auto DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
 
+	auto Name = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s: Damage Applied %d"), *Name, DamageToApply)
+
 	CurrentHealth -= DamageToApply;
 	if (CurrentHealth <= 0)
 	{
-		auto Name = GetName();
-		UE_LOG(LogTemp, Warning, TEXT("%s died"), *Name)
+		OnDeath.Broadcast();
 	}
 
 	return DamageToApply;

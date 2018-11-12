@@ -9,7 +9,8 @@
 /**
  * TankTurret is used to rotate the turret and keep track of turn speed.
  */
-UCLASS(meta = (BlueprintSpawnableComponent), hidecategories = ("Collision"))
+//UCLASS(meta = (BlueprintSpawnableComponent), hidecategories = ("Collision"))
+UCLASS(meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UTankTurret : public UStaticMeshComponent
 {
 	GENERATED_BODY()

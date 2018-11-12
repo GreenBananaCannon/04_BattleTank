@@ -9,7 +9,9 @@
 /**
  * TankBarrel is used to elevate the barrel and keep track of degrees of freedom and elevation speed.
  */
-UCLASS(meta = (BlueprintSpawnableComponent), hidecategories = ("Collision"))
+//UCLASS(meta = (BlueprintSpawnableComponent), hidecategories = ("Collision"))
+
+UCLASS(meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UTankBarrel : public UStaticMeshComponent
 {
 	GENERATED_BODY()
