@@ -6,6 +6,7 @@
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "Engine/World.h"
 #include "Public/TimerManager.h"
+#include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 
 // Sets default values
@@ -48,7 +49,19 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherACtor, U
 	ImpactBlast->Activate();
 
 	ExplosionForce->FireImpulse();
-	CollisionMesh->DestroyComponent();
+
+	auto DamageApplied = UGameplayStatics::ApplyRadialDamage(
+		this,
+		ProjectileDamage,
+		GetActorLocation(),
+		ExplosionForce->Radius, // for consistency between the explosion and damage application
+		UDamageType::StaticClass(),
+		TArray<AActor*>() // damage all actors, do not ignore any
+		);
+
+	UE_LOG(LogTemp, Warning, TEXT("%i damage was applied"), DamageApplied)
+
+	CollisionMesh->DestroyComponent(); // Must be after ApplyRadialDamage, otherwise TakeDamage not propagated to the target Actor
 
 	FTimerHandle TimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectile::OnTimerExpire, DestroyDelay,false);
@@ -63,6 +76,6 @@ void AProjectile::LaunchProjectile(float Speed)
 
 void AProjectile::OnTimerExpire()
 {
-	this->Destroy();
+	Destroy();
 }
 
