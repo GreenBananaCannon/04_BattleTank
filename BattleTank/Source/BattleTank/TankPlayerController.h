@@ -28,6 +28,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* AimingComponent = nullptr;
 
+	UFUNCTION() // required by delegates
+	void OnTankDeath();
+
 private:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -35,8 +38,7 @@ private:
 
 	virtual void SetPawn(APawn* InPawn) override;
 
-	UFUNCTION() // required by delegates
-	void OnTankDeath();
+	
 
 	// Start the tank moving the barrel so that a shot would hit where
 	// the crosshair intersects the world
