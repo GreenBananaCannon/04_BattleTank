@@ -20,6 +20,7 @@ UTankAimingComponent::UTankAimingComponent()
 
 void UTankAimingComponent::BeginPlay()
 {
+	Super::BeginPlay();
 	//So that first fire is after initial reload
 	LastFireTime = GetWorld()->GetTimeSeconds();
 }
