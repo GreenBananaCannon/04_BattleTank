@@ -58,7 +58,7 @@ int32 UTankAimingComponent::GetRoundsLeft() const
 
 bool UTankAimingComponent::IsBarrelMoving()
 {
-	if (!ensure(Barrel)) { return false; }
+	if (!Barrel) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
 	return !BarrelForward.Equals(AimDirection, .01);
 }
