@@ -25,8 +25,7 @@ void ATankAIController::SetPawn(APawn* InPawn)
 
 void ATankAIController::OnTankDeath()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s broadcasted death"), *GetPawn()->GetName())
-	if (GetPawn()) { return; } //Not necessary to have an ensure here
+	if (!GetPawn()) { return; } //Not necessary to have an ensure here
 	GetPawn()->DetachFromControllerPendingDestroy();
 }
 

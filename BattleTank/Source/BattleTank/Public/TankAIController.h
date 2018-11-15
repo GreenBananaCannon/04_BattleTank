@@ -23,6 +23,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup") // Consider EditDefaultsOnly
 	float AcceptanceRadius = 8000;
 
+	UFUNCTION()
+	void OnTankDeath();
+
 private:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -31,7 +34,4 @@ private:
 
 	virtual void SetPawn(APawn* InPawn) override;
 
-	UFUNCTION()
-	void OnTankDeath();
-	
 };
