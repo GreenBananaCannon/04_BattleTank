@@ -3,6 +3,7 @@
 #include "SprungWheel.h"
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/SphereComponent.h"
 
 
 // Sets default values
@@ -14,8 +15,16 @@ ASprungWheel::ASprungWheel()
 	MassWheelConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Mass Wheel Constraint"));
 	SetRootComponent(MassWheelConstraint);
 
-	Wheel = CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
-	Wheel->SetupAttachment(MassWheelConstraint);
+	Axel = CreateDefaultSubobject<USphereComponent>(FName("Axel"));
+	Axel->SetupAttachment(MassWheelConstraint);
+
+	AxelWheelConstraint = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("Axel Wheel Constraint"));
+	AxelWheelConstraint->SetupAttachment(Axel);
+
+	Wheel = CreateDefaultSubobject<USphereComponent>(FName("Wheel"));
+	Wheel->SetupAttachment(Axel);
+
+	
 
 	
 }
@@ -24,10 +33,7 @@ ASprungWheel::ASprungWheel()
 void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("BeforeSetupConstraint"))
 	SetupConstraint();
-	UE_LOG(LogTemp, Warning, TEXT("AfterSetupConstraint"))
-
 }
 
 // Called every frame
@@ -38,11 +44,12 @@ void ASprungWheel::Tick(float DeltaTime)
 
 void ASprungWheel::SetupConstraint()
 {
-	UE_LOG(LogTemp, Warning, TEXT("EnteringSetupConstraint"))
-
 	if (!GetAttachParentActor()) { return; }
 	UPrimitiveComponent* BodyRoot = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
 	if (!BodyRoot) { return; }
-	MassWheelConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Wheel, NAME_None);
+	MassWheelConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Axel, NAME_None);
+
+	if (!Axel) { return; }
+	AxelWheelConstraint->SetConstrainedComponents(Axel, NAME_None, Wheel, NAME_None);
 }
 
