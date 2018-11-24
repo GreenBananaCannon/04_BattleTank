@@ -18,10 +18,10 @@ TArray<ASprungWheel*> UTankTrack::GetWheels() const
 
 	for (auto Child : TankTrackSpawnPoints)
 	{
-		auto SpawnPointChild = Cast<USpawnPoint>(Child);
+		auto SpawnPointChild = Cast<USpawnPoint>(Child); // spawn point is initially a USceneComponent
 		if (!SpawnPointChild) continue;
 
-		auto SprungWheel = Cast<ASprungWheel>(SpawnPointChild->GetSpawnedActor());
+		auto SprungWheel = Cast<ASprungWheel>(SpawnPointChild->GetSpawnedActor()); // SpawnedActor is initially type AActor
 		if (!SprungWheel) continue;
 		TankTrackWheels.Add(SprungWheel);
 	}
