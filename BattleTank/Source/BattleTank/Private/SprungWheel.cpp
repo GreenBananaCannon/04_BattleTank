@@ -47,7 +47,6 @@ void ASprungWheel::Tick(float DeltaTime)
 	{
 		TotalForceMagnitudeThisFrame = 0;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Tick %f"), GetWorld()->GetTimeSeconds())
 }
 
 void ASprungWheel::AddDrivingForce(float ForceMagnitude)
@@ -69,7 +68,6 @@ void ASprungWheel::SetupConstraint()
 
 void ASprungWheel::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherACtor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("OnHit %f"), GetWorld()->GetTimeSeconds())
 	ApplyForce();
 }
 
