@@ -23,10 +23,6 @@ ASprungWheel::ASprungWheel()
 
 	Wheel = CreateDefaultSubobject<USphereComponent>(FName("Wheel"));
 	Wheel->SetupAttachment(Axel);
-
-	
-
-	
 }
 
 // Called when the game starts or when spawned
@@ -42,10 +38,17 @@ void ASprungWheel::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void ASprungWheel::AddDrivingForce(float ForceMagnitude)
+{
+	if (!Wheel) { return; }
+	Wheel->AddForce(Axel->GetForwardVector() * ForceMagnitude);
+}
+
 void ASprungWheel::SetupConstraint()
 {
 	if (!GetAttachParentActor()) { return; }
 	UPrimitiveComponent* BodyRoot = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
+
 	if (!BodyRoot) { return; }
 	MassWheelConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Axel, NAME_None);
 
